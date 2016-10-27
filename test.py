@@ -11,11 +11,11 @@ files = glob.glob('out/*')
 for f in files:
     os.remove(f)
 
-target = open("out/log.txt", "w")
+# target = open("out/log.txt", "w")
 
-target.write("Errors:\n")
+# target.write("Errors:\n")
 
-for file in range(0, 10):
+for file in range(0, 100):
     my_img = imread('./files/%04d.jpg' % file)
     my_img = crop.remove_top_segment(my_img)
 
@@ -26,7 +26,7 @@ for file in range(0, 10):
 
     if my_img.shape[0] > 1850:
         print "Likely error: page-%04d.jpg" % file
-        target.write("%d\n" % file)
+        # target.write("%d\n" % file)
         continue
          
 
@@ -53,8 +53,9 @@ for file in range(0, 10):
         if crop.percent_filled(end) < 0.05:
             continue
         else:
-            ks = np.transpose(crop.grey_top(np.transpose(row)[0:350], 64))
+            # ks = np.transpose(crop.grey_top(np.transpose(row)[0:350], 64))
+            ks = np.transpose(np.transpose(row)[0:64])
             misc.imsave("out/%04d-%02d.jpg" % (file, i), ks)
         i += 1
 
-    misc.imsave("out/page-%04d.jpg" % file, my_img)
+    # misc.imsave("out/page-%04d.jpg" % file, my_img)
