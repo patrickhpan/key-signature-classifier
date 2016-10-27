@@ -5,12 +5,16 @@ from scipy import misc
 def test_row(img, row_number = 0, threshold = 10):
     row = (img[row_number] == 255)
     count = np.count_nonzero(row == False)
-    # print "row %d count %d" % (row_number, count)
     return (count > threshold)
+
+def trim_top(img, threshold = 10):
+    for i in range(0, img.shape[0]):
+        if test_row(img, i, threshold):
+            return img[i:]
+    return img
 
 # Identifies continuous of size `min_size` regions of the image where `test_row` is true.
 def filled_ranges(img, min_size = 15, threshold = 20):
-    print threshold
     ranges = []
     found_row = False
     for i in range(0, img.shape[0]):
@@ -48,4 +52,19 @@ def save_imgs(images, path = "out/"):
         i += 1
 
 def percent_filled(img):
+    if img.size == 0:
+        return 0
     return float(np.count_nonzero(img != 255)) / float(img.size)
+
+def expand_range(range, to):
+    size = range[1] - range[0]
+    dist = (to - size) / 2
+    range[1] += dist
+    range[0] = range[1] - to
+    return range
+
+def grey_top(img, until):
+    greyed = img[:until]
+    greyed = greyed / 2
+    img = img[until:]
+    return np.concatenate((greyed, img), axis=0)
