@@ -1,1 +1,11 @@
+# source files 
 files/
+files.zip
+out/
+
+# python
+*.pyc
+
+# misc preferences
+.DS_Store
+.vscode/
